@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -170,10 +172,50 @@ public class CustomUserGroupTest {
 //        List<User> users1 = customUserGroupRepository.findUsers(9l);
 //        System.err.println(users1);
 //        List<User> users1 = customUserGroupRepository.findUsers2(new PageRequest(0,2));//(root,cq,cb)->{ return cb.equal(root.get("id"),333);});
-        List<CustomUserGroup> id1 = customUserGroupRepository.findAll((root, cq, cb) -> {
-            return cb.equal(root.get("id"), 333);
+        List<User> id1 = userRepository.findAll((root, cq, cb) -> {
+            Subquery<Integer> subquery = cq.subquery(Integer.class);
+            Root<CustomUserGroup> customUserGroupRoot = subquery.from(CustomUserGroup.class);
+            Join<CustomUserGroup, User> users = customUserGroupRoot.join("users");
+            subquery.select(users.get("id"));
+//            subquery.where(cb.equal(customUserGroupRoot.get("id")))
+            return cb.in(root.get("id")).value(subquery);
         });
         System.err.println(id1);
+//        System.err.println(customUserGroupRepository.findUsers2(9l, new PageRequest(0,10)));
+    }
+    @Test
+    @Transactional
+    public void testQuery3() {
+//        List<User> users1 = customUserGroupRepository.findUsers(9l);
+//        System.err.println(users1);
+//        List<User> users1 = customUserGroupRepository.findUsers2(new PageRequest(0,2));//(root,cq,cb)->{ return cb.equal(root.get("id"),333);});
+        List<User> id1 = userRepository.findAll((root, cq, cb) -> {
+            Subquery<Integer> subquery = cq.subquery(Integer.class);
+            Root<CustomUserGroup> customUserGroupRoot = subquery.from(CustomUserGroup.class);
+            Join<CustomUserGroup, User> users = customUserGroupRoot.join("users");
+            subquery.select(users.get("id"));
+//            subquery.where(cb.equal(customUserGroupRoot.get("id")))
+            return cb.in(root.get("id")).value(subquery);
+        });
+        System.err.println(id1);
+//        System.err.println(customUserGroupRepository.findUsers2(9l, new PageRequest(0,10)));
+    }
+    @Test
+    @Transactional
+    public void testQuery4() {
+        Page<Map> id1 = userRepository.findUsersByCustomGroupId(new PageRequest(1,3));
+        System.err.println(id1);
+        Gson gson=new Gson();
+        System.err.println(gson.toJson(id1));
+//        System.err.println(customUserGroupRepository.findUsers2(9l, new PageRequest(0,10)));
+    }
+    @Test
+    @Transactional
+    public void testQuery5() {
+        Page<User> id1 = userRepository.findAll(new PageRequest(1, 3));
+        System.err.println(id1);
+        Gson gson=new Gson();
+        System.err.println(gson.toJson(id1));
 //        System.err.println(customUserGroupRepository.findUsers2(9l, new PageRequest(0,10)));
     }
 }

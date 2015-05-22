@@ -33,6 +33,17 @@ public class User {
     @JoinColumn(name="abcd",referencedColumnName="nick_name")
     private Dog dog1;
 
+    @Transient
+    private CustomUserGroup customUserGroup;
+
+    public CustomUserGroup getCustomUserGroup() {
+        return customUserGroup;
+    }
+
+    public void setCustomUserGroup(CustomUserGroup customUserGroup) {
+        this.customUserGroup = customUserGroup;
+    }
+
     public List<CarBrands> getBrands() {
         return brands;
     }
