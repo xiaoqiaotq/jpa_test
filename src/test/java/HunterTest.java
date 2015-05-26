@@ -1,15 +1,14 @@
-import jdk.internal.org.objectweb.asm.tree.MultiANewArrayInsnNode;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.xiaoqiaotq.Application;
 import org.xiaoqiaotq.domain.Dog;
+import org.xiaoqiaotq.domain.Hunter;
 import org.xiaoqiaotq.domain.Student;
-import org.xiaoqiaotq.repository.StudentRepository;
+import org.xiaoqiaotq.repository.HunterResopistory;
 
 import javax.transaction.Transactional;
 import java.io.*;
@@ -23,14 +22,14 @@ import java.util.Set;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @TransactionConfiguration(defaultRollback = false)
-public class StudentTest {
+public class HunterTest {
     @Autowired
-    private StudentRepository studentRepository;
+    private HunterResopistory hunterResopistory;
 
     @Test
     public void testAdd() {
-        Student student = new Student();
-        student.setName("Lisi");
+        Hunter hunter = new Hunter();
+        hunter.setName("Lisi");
         Dog dog1=new Dog();
         dog1.setNickname("wangzai");
         Dog dog2=new Dog();
@@ -38,17 +37,18 @@ public class StudentTest {
         Set<Dog> dogs = new HashSet<>();
         dogs.add(dog1);
         dogs.add(dog2);
-        student.setDogs(dogs);
+        hunter.setDogs(dogs);
 
-        studentRepository.save(student);
+        hunterResopistory.save(hunter);
     }
 
     @Test
     @Transactional
     public void testSerializable() {
-        Student student = studentRepository.findOne(2l);
-        Student copy = (Student) deepCopy(student);
-        studentRepository.save(copy);
+        Hunter hunter = hunterResopistory.findOne(1);
+        hunter.getDogs().size();
+        Hunter copy = (Hunter) deepCopy(hunter);
+        hunterResopistory.save(copy);
     }
 
     private Serializable deepCopy(Serializable serializable) {

@@ -6,31 +6,24 @@ import java.util.Set;
 
 /**
  * author: xiaoqiaotq@gmail.com
- * date  : 2015/5/12.
+ * date  : 2015/5/26.
  */
 @Entity
-public class Student implements Serializable {
+public class Hunter implements Serializable{
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
-    private  String name;
+    private String name;
+
     @OneToMany(cascade = CascadeType.PERSIST)
     private Set<Dog> dogs;
 
-    public Set<Dog> getDogs() {
-        return dogs;
-    }
-
-    public void setDogs(Set<Dog> dogs) {
-        this.dogs = dogs;
-    }
-
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,5 +33,13 @@ public class Student implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Dog> getDogs() {
+        return dogs;
+    }
+
+    public void setDogs(Set<Dog> dogs) {
+        this.dogs = dogs;
     }
 }
