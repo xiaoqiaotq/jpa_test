@@ -2,6 +2,7 @@ package org.xiaoqiaotq.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -18,6 +19,8 @@ public class Student implements Serializable {
     @OneToMany(cascade = CascadeType.PERSIST)
     private Set<Dog> dogs;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
     public Set<Dog> getDogs() {
         return dogs;
     }
