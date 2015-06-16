@@ -43,4 +43,12 @@ public class District extends Node1<District>{
     public Integer getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "District{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -11,6 +11,8 @@ import org.xiaoqiaotq.repository.DistrictRepository;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * author: xiaoqiaotq@gmail.com
@@ -34,9 +36,9 @@ public class TreeTest {
     @Transactional
     public void addChildren(){
         District district=new District();
-        district.setName("aaaaa市");
+        district.setName("江宁区");
         District root = new District();
-        root.setId(1);
+        root.setId(2);
         district.setParent(root);
         districtRepository.save(district);
     }
@@ -45,7 +47,9 @@ public class TreeTest {
     @Transactional
     public void testTransverse(){
         District root = districtRepository.findRoot();
-        tranverseTree(root,new ArrayList<>());
+//        tranverseTree(root,new ArrayList<>());
+        List<District> districts = traverseTree(root);
+        System.err.println(districts);
 
     }
     private void tranverseTree(District district,Collection<District> collection) {
@@ -54,6 +58,15 @@ public class TreeTest {
         for (District o : district.getChildren()) {
             tranverseTree(o,collection);
         }
+    }
+    private List<District>  traverseTree(District district) {
+        System.err.println(district.getId()+" , "+district.getName());
+        List<District> list = new ArrayList<>();
+        list.add(district);
+        for (District o : district.getChildren()) {
+           list.addAll(traverseTree(o));
+        }
+        return list;
     }
     @Test
     @Transactional
