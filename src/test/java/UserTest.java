@@ -12,6 +12,7 @@ import org.xiaoqiaotq.repository.StudentRepository;
 import org.xiaoqiaotq.repository.UserRepository;
 
 import javax.transaction.Transactional;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -60,5 +61,26 @@ public class UserTest {
         User one = userRepository.findOne(1l);
         List<String> list = Arrays.asList(new String[]{"aaa", "bbb"});
         one.setEmails(new HashSet<>(list));
+    }
+    @Test
+    public void testEnum() {
+        System.err.println(User.CarBrands.FIAT.getDeclaringClass());
+        System.err.println(User.CarBrands.class.getDeclaringClass());
+    }
+    @Test
+    public void testDecalringOrEnclosing() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.err.println(this.getClass().getDeclaringClass());
+                System.err.println(this.getClass().getEnclosingClass());
+            }
+        }).run();
+    }
+    @Test
+    public void testDecimalFormat() {
+        DecimalFormat decimalFormat = new DecimalFormat("##.000%");
+        String format = decimalFormat.format(1.333);
+        System.err.println(format);
     }
 }

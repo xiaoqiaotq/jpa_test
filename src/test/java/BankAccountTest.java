@@ -38,19 +38,19 @@ public class BankAccountTest {
     @Transactional
     public void test1() {
         ExecutorService executorService = Executors.newFixedThreadPool(100);
-        for (int i = 0; i < 100; i++) {
-            executorService.submit(()->{
-            String username = "zhsan";
-            int money = 0;
-            BankAccount bankAccount = null;
-            if ((bankAccount = bankAccountRepository.findByUsername(username)) != null) {
-                bankAccountRepository.incrementMoney(bankAccount.getId());
-            } else {
-                bankAccount = new BankAccount(username, money);
-                bankAccountRepository.save(bankAccount);
-            }
-            });
-        }
+//        for (int i = 0; i < 100; i++) {
+//            executorService.submit(()->{
+//            String username = "zhsan";
+//            int money = 0;
+//            BankAccount bankAccount = null;
+//            if ((bankAccount = bankAccountRepository.findByUsername(username)) != null) {
+//                bankAccountRepository.incrementMoney(bankAccount.getId());
+//            } else {
+//                bankAccount = new BankAccount(username, money);
+//                bankAccountRepository.save(bankAccount);
+//            }
+//            });
+//        }
 
     }
 }
